@@ -1,5 +1,12 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
+const clearButton = document.getElementById("clear-button");
+
+inputBox.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        addTask();
+    }
+});
 
 function addTask() {
     if (inputBox.value === '') {
@@ -16,6 +23,7 @@ function addTask() {
     }
     inputBox.value = "";
     saveData();
+    toggleClearButton();
 }
 
 function getDateIndicator(date) {
@@ -45,6 +53,7 @@ listContainer.addEventListener("click", function(e) {
     } else if (e.target.tagName === "SPAN") {
         e.target.parentElement.remove();
         saveData();
+        toggleClearButton();
     }
 }, false);
 
@@ -54,6 +63,24 @@ function saveData() {
 
 function showTask() {
     listContainer.innerHTML = localStorage.getItem("data");
+    toggleClearButton();
+}
+
+function clearTasks() {
+    listContainer.innerHTML = "";
+    saveData();
+    toggleClearButton();
+}
+
+function toggleClearButton() {
+    if (listContainer.children.length > 0) {
+        clearButton.style.display = "block";
+    } else {
+        clearButton.style.display = "none";
+    }
 }
 
 showTask();
+
+
+
